@@ -1,0 +1,65 @@
+# Example scenario. Layered on top of the `huge` preset via the name field.
+#   go run . --config scenarios/example.yaml
+#
+# Run `go run . --dump-config` to see every available field with its defaults.
+name: huge
+seed: 4242
+
+nodes: 4000
+namespaces: 400
+
+workloads:
+  deployments: 8000
+  pods: 250000
+  replicas: { min: 1, max: 400 }
+  extraReplicaSets: { min: 0, max: 3 }
+  containers: { min: 1, max: 4 }
+  degradedPercent: 15
+  failingPercent: 4
+
+lifecycle:
+  mix:
+    running: 85
+    pending: 4
+    crashLoopBackOff: 5
+    imagePullBackOff: 2
+    failed: 2
+    succeeded: 2
+  scheduling: { min: 500ms, max: 5s }
+  startup: { min: 1s, max: 30s }
+  termination: { min: 2s, max: 45s }
+  transitionsPerSecond: 8000
+
+resources:
+  small: 40
+  medium: 35
+  large: 18
+  extreme: 4
+  wasteful: 3
+
+churn:
+  podsPerSecond: 40
+  restartsPerSecond: 20
+  scalesPerMinute: 10
+  nodesPerMinute: 4
+
+events:
+  max: 150000
+  seed: 30000
+  sample: 0.5
+  extraPerSecond: 50
+
+api:
+  port: 6443
+  latency: 120ms
+  jitter: 0.6
+  perObjectLatency: 2us
+  chaos: false
+  watchChurn: false
+  watchBuffer: 16384
+  metrics: true
+
+objects:
+  extraLabels: 10
+  extraAnnotations: 8
+  annotationSize: 256
